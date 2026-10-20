@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { phones } from "../data/contact.js";
+import { businessEmail, phones } from "../data/contact.js";
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -110,7 +110,9 @@ function Header() {
           <i className="fas fa-envelope"></i>
           <div>
             <h4>Email</h4>
-            <p>fordesh@gmail.com</p>
+            <p>
+              <a href={`mailto:${businessEmail}`}>{businessEmail}</a>
+            </p>
           </div>
         </div>
 

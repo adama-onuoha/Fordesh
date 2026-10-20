@@ -3018,3 +3018,45 @@ html{
     letter-spacing:.5px;
     color:var(--text-muted);
 }
+
+/* Business email under the company name (contact section and footer) */
+.contact .row form .contact-business{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:.4rem 1.6rem;
+    margin:-.6rem 0 2.4rem;
+    font-size:1.5rem;
+}
+
+.contact .row form .contact-business strong{
+    color:var(--text);
+    letter-spacing:.5px;
+}
+
+.contact .row form .contact-business a{
+    color:#2c7d4b;
+    font-weight:600;
+    overflow-wrap:anywhere;
+}
+
+.contact .row form .contact-business a:hover{
+    text-decoration:underline;
+}
+
+.footer-email{
+    margin-top:1.4rem;
+}
+
+.footer-email strong{
+    letter-spacing:.5px;
+}
+
+.footer-email a{
+    color:inherit;
+    font-weight:600;
+}
+
+.footer-email a:hover{
+    color:var(--accent);
+}

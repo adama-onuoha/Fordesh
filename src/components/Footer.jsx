@@ -1,4 +1,4 @@
-import { phones } from '../data/contact.js'
+import { businessEmail, phones } from '../data/contact.js'
 
 function Footer() {
   return (
@@ -11,6 +11,13 @@ function Footer() {
             pellet-based cooking solutions that lower household costs, improve
             health, protect forests, and create meaningful jobs for women and
             young people. Clean Energy. Stronger Communities.
+          </p>
+          <p className="footer-email">
+            <strong>FORDESH AFRICA</strong>
+            <br />
+            <a href={`mailto:${businessEmail}`}>
+              <i className="fa-solid fa-envelope"></i> {businessEmail}
+            </a>
           </p>
           <p className="footer-motto">Transforming How Nigerian Households Cook</p>
         </div>
@@ -74,9 +81,9 @@ function Footer() {
               </li>
             ))}
             <li>
-              <a href="mailto:fordesh@gmail.com">
+              <a href={`mailto:${businessEmail}`}>
                 <i className="fa-solid fa-envelope"></i>
-                <span>fordesh@gmail.com</span>
+                <span>{businessEmail}</span>
               </a>
             </li>
           </ul>

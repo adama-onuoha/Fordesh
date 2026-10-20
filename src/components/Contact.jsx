@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase.js'
+import { businessEmail } from '../data/contact.js'
 
 const emptyForm = { name: '', email: '', phone: '', subject: '', message: '' }
 const SUCCESS_VISIBLE_MS = 5000
@@ -24,7 +25,7 @@ function Contact() {
 
     if (!supabase) {
       setStatus('error')
-      setError('The contact form is not connected yet. Please email fordesh@gmail.com.')
+      setError(`The contact form is not connected yet. Please email ${businessEmail}.`)
       return
     }
 
@@ -41,7 +42,7 @@ function Contact() {
 
     if (insertError) {
       setStatus('error')
-      setError('Sorry, your message could not be sent. Please try again or email fordesh@gmail.com.')
+      setError(`Sorry, your message could not be sent. Please try again or email ${businessEmail}.`)
       return
     }
 
@@ -56,6 +57,13 @@ function Contact() {
           <h3 className="heading">
             contact <span>us</span>
           </h3>
+
+          <div className="contact-business">
+            <strong>FORDESH AFRICA</strong>
+            <a href={`mailto:${businessEmail}`}>
+              <i className="fa-solid fa-envelope"></i> {businessEmail}
+            </a>
+          </div>
 
           {status === 'sent' && (
             <span className="success-msg">

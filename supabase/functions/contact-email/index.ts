@@ -3,12 +3,17 @@
 //
 // Secrets (Supabase Dashboard -> Edge Functions -> Secrets):
 //   RESEND_API_KEY  - from resend.com -> API Keys
+//   TO_EMAILS       - optional, comma-separated recipients (defaults below)
+//   FROM_EMAIL      - optional sender (defaults below)
 // SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are provided by Supabase automatically.
+//
+// Sending from fordeshafrica.com needs that domain verified in Resend (Domains -> Add Domain).
 
-const TO_EMAIL = 'fordesh@gmail.com'
-// Resend's shared test sender. Replace with an address on your own domain once
-// that domain is verified in Resend (e.g. 'FORDESH Website <website@fordeshafrica.com>').
-const FROM_EMAIL = 'FORDESH Website <onboarding@resend.dev>'
+const TO_EMAILS = (Deno.env.get('TO_EMAILS') ?? 'info@fordeshafrica.com,fordesh@gmail.com')
+  .split(',')
+  .map((address) => address.trim())
+  .filter(Boolean)
+const FROM_EMAIL = Deno.env.get('FROM_EMAIL') ?? 'FORDESH Website <website@fordeshafrica.com>'
 
 const escapeHtml = (value: string) =>
   value
@@ -83,7 +88,7 @@ Deno.serve(async (req) => {
     },
     body: JSON.stringify({
       from: FROM_EMAIL,
-      to: [TO_EMAIL],
+      to: TO_EMAILS,
       reply_to: message.email,
       subject: `Website message: ${message.subject || 'New enquiry'} (from ${message.name})`,
       html,

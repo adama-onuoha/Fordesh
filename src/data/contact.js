@@ -6,3 +6,6 @@ export const phones = [
   { country: 'Ghana', display: '+233 24 790 4825', tel: '+233247904825' },
   { country: 'Canada', display: '+1 (780) 722-0723', tel: '+17807220723' },
 ]
+
+// Business email shown on the site; contact form messages are delivered here too.
+export const businessEmail = 'info@fordeshafrica.com'
