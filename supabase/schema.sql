@@ -11,6 +11,12 @@ create table if not exists public.contact_messages (
   message     text not null check (char_length(message) between 1 and 5000)
 );
 
+-- Data API access. Supabase no longer grants this automatically for new tables.
+-- Visitors (anon) may only insert; the contact-email function (service_role) reads.
+-- No select for anon: messages contain visitors' personal details.
+grant insert on public.contact_messages to anon;
+grant select, insert, update, delete on public.contact_messages to service_role;
+
 -- Row Level Security: visitors may only ADD messages.
 -- Nobody using the public key can read, edit or delete them;
 -- you view them in the Supabase dashboard (Table Editor).
