@@ -21,6 +21,17 @@
     ></script>
   </head>
   <body>
+    <!-- Hidden copy of the contact form so Netlify Forms can detect its fields at deploy time.
+         The visible form is rendered by React (src/components/Contact.jsx) and must use the same name and fields. -->
+    <form name="contact" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="subject" />
+      <textarea name="message"></textarea>
+      <input name="bot-field" />
+    </form>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

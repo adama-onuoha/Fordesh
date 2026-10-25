@@ -1,6 +1,6 @@
 # Netlify builds the site from GitHub using these settings.
-# The Supabase keys (VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY)
-# are not in GitHub; add them in Netlify under Site configuration -> Environment variables.
+# The contact form uses Netlify Forms: enable form detection under
+# Site configuration -> Forms, and set email alerts under Forms -> Form notifications.
 
 [build]
   command = "npm run build"

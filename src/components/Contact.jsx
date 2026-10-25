@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase.js'
 import { businessEmail } from '../data/contact.js'
 
-const emptyForm = { name: '', email: '', phone: '', subject: '', message: '' }
+// Messages are collected by Netlify Forms (form "contact", declared in index.html)
+// and emailed to the business address from Netlify's form notifications.
+const FORM_NAME = 'contact'
+const emptyForm = { name: '', email: '', phone: '', subject: '', message: '', 'bot-field': '' }
 const SUCCESS_VISIBLE_MS = 5000
 
 function Contact() {
@@ -23,24 +25,26 @@ function Contact() {
   const handleSubmit = async (event) => {
     event.preventDefault()
 
-    if (!supabase) {
-      setStatus('error')
-      setError(`The contact form is not connected yet. Please email ${businessEmail}.`)
-      return
-    }
-
     setStatus('sending')
     setError('')
 
-    const { error: insertError } = await supabase.from('contact_messages').insert({
-      name: form.name.trim(),
-      email: form.email.trim(),
-      phone: form.phone.trim() || null,
-      subject: form.subject.trim() || null,
-      message: form.message.trim(),
-    })
+    const fields = Object.fromEntries(
+      Object.entries(form).map(([key, value]) => [key, value.trim()]),
+    )
 
-    if (insertError) {
+    let sent = false
+    try {
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ 'form-name': FORM_NAME, ...fields }).toString(),
+      })
+      sent = response.ok
+    } catch {
+      // network error: handled below like any other failure
+    }
+
+    if (!sent) {
       setStatus('error')
       setError(`Sorry, your message could not be sent. Please try again or email ${businessEmail}.`)
       return
@@ -53,7 +57,13 @@ function Contact() {
   return (
     <section className="contact" id="contact">
       <div className="row">
-        <form onSubmit={handleSubmit}>
+        <form
+          name={FORM_NAME}
+          method="POST"
+          data-netlify="true"
+          netlify-honeypot="bot-field"
+          onSubmit={handleSubmit}
+        >
           <h3 className="heading">
             contact <span>us</span>
           </h3>
@@ -71,6 +81,14 @@ function Contact() {
             </span>
           )}
           {status === 'error' && <span className="error-msg">{error}</span>}
+
+          {/* Hidden from people; spam bots fill it in and Netlify discards those messages */}
+          <p hidden>
+            <label>
+              Leave this empty:{' '}
+              <input name="bot-field" value={form['bot-field']} onChange={handleChange} />
+            </label>
+          </p>
 
           <div className="form-control">
             <input
